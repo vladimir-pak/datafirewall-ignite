@@ -15,7 +15,12 @@ ignite:
   local-host: localhost
 
   cluster:
-    activate-on-start: true
+    activate-on-start: false
+
+    expected-servers:
+      - ignite-server-n1
+      - ignite-server-n2
+      - ignite-server-n3
 
   discovery:
     addresses:

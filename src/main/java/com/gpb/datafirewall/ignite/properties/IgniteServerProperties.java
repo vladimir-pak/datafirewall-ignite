@@ -1,7 +1,9 @@
 package com.gpb.datafirewall.ignite.properties;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -20,6 +22,7 @@ public class IgniteServerProperties {
     private Authentication authentication = new Authentication();
     private Persistence persistence = new Persistence();
     private DataRegion dataRegion = new DataRegion();
+    private Set<String> expectedServers;
 
     public String getInstanceName() {
         return instanceName;
@@ -110,7 +113,10 @@ public class IgniteServerProperties {
     }
 
     public static class Cluster {
-        private boolean activateOnStart = true;
+
+        private boolean activateOnStart = false;
+
+        private Set<String> expectedServers = new LinkedHashSet<>();
 
         public boolean isActivateOnStart() {
             return activateOnStart;
@@ -118,6 +124,14 @@ public class IgniteServerProperties {
 
         public void setActivateOnStart(boolean activateOnStart) {
             this.activateOnStart = activateOnStart;
+        }
+
+        public Set<String> getExpectedServers() {
+            return expectedServers;
+        }
+
+        public void setExpectedServers(Set<String> expectedServers) {
+            this.expectedServers = expectedServers;
         }
     }
 

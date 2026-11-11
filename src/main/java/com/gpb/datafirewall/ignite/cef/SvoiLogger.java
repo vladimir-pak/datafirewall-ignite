@@ -61,6 +61,23 @@ public class SvoiLogger {
         send("kafkaConsumer", "Consumer connected to Kafka", message, SvoiSeverityEnum.ONE, journal);
     }
 
+    public void sendApiRequest(
+        String endpoint, 
+        String message, 
+        String user,
+        String ip,
+        String dns,
+        int port
+    ) {
+        SvoiJournal journal = svoiJournalFactory.getJournalSource();
+        journal.setShost(dns);
+        journal.setSrc(ip);
+        journal.setSuser(user);
+        journal.setSpt(port);
+        message += " " + endpoint;
+        send("apiCall", "API Request", message, SvoiSeverityEnum.ONE, journal);
+    }
+
     public void sendDbConnection(String message) {
         String url = dataSourceProperties.getUrl();
         
