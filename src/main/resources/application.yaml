@@ -55,6 +55,10 @@ ignite:
     initial-size-mb: 512
     max-size-mb: 2048
 
+jwt:
+  secret: ${JWT_SECRET:nQ1O6UXZox/Qm4NdCAjrdO3a5evCyUr6IbeB31L/BPQ=}
+  expirationHours: 87600
+  
 logs-database:
   enabled: true
   task-create-partition: 0 0 0 * * ?
