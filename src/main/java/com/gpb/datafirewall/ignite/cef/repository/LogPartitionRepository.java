@@ -78,18 +78,25 @@ public class LogPartitionRepository {
             schema = fullTableName.split("\\.")[0];
         }
 
-        String sqlGetPartitions = String.format("""
-                SELECT 
+        String sqlGetPartitions = """
+                SELECT
                     child.relname AS partition_name
                 FROM pg_inherits
                     JOIN pg_class parent ON pg_inherits.inhparent = parent.oid
                     JOIN pg_class child ON pg_inherits.inhrelid = child.oid
                     JOIN pg_namespace nmsp_parent ON nmsp_parent.oid = parent.relnamespace
                     JOIN pg_namespace nmsp_child ON nmsp_child.oid = child.relnamespace
-                WHERE parent.relname = '%s'
-                """, table);
-        
-        List<String> partitions = logsJdbcTemplate.queryForList(sqlGetPartitions, String.class);
+                WHERE parent.relname = ?
+                AND nmsp_parent.nspname = ?
+                AND child.relname NOT LIKE '%\\_default' ESCAPE '\\'
+                """;
+
+        List<String> partitions = logsJdbcTemplate.queryForList(
+                sqlGetPartitions,
+                String.class,
+                table,
+                schema
+        );
 
         for (String partName : partitions) {
             String dateStr = partName.replace(table + "_", "");
