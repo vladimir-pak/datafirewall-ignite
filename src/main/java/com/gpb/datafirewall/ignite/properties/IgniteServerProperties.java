@@ -13,6 +13,7 @@ public class IgniteServerProperties {
     private String instanceName = "ignite-server";
     private String consistentId = "ignite-server";
     private String localHost = "127.0.0.1";
+    private String workDirectory = "ignite/work";
 
     private Cluster cluster = new Cluster();
     private Discovery discovery = new Discovery();
@@ -22,7 +23,6 @@ public class IgniteServerProperties {
     private Authentication authentication = new Authentication();
     private Persistence persistence = new Persistence();
     private DataRegion dataRegion = new DataRegion();
-    private Set<String> expectedServers;
 
     public String getInstanceName() {
         return instanceName;
@@ -46,6 +46,14 @@ public class IgniteServerProperties {
 
     public void setLocalHost(String localHost) {
         this.localHost = localHost;
+    }
+
+    public String getWorkDirectory() {
+        return workDirectory;
+    }
+
+    public void setWorkDirectory(String workDirectory) {
+        this.workDirectory = workDirectory;
     }
 
     public Cluster getCluster() {

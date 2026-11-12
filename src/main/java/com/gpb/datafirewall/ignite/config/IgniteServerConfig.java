@@ -33,7 +33,10 @@ public class IgniteServerConfig {
 
         Ignite ignite = Ignition.start(cfg);
 
-        if (props.getCluster().isActivateOnStart()) {
+        if (
+            props.getCluster().isActivateOnStart()
+                    && ignite.cluster().state() == ClusterState.INACTIVE
+        ) {
             ignite.cluster().state(ClusterState.ACTIVE);
             log.info("Ignite cluster activated");
         }
@@ -59,6 +62,8 @@ public class IgniteServerConfig {
         cfg.setCommunicationSpi(communicationSpi());
         cfg.setClientConnectorConfiguration(clientConnectorConfiguration());
         cfg.setAuthenticationEnabled(props.getAuthentication().isEnabled());
+
+        cfg.setWorkDirectory(props.getWorkDirectory());
 
         if (props.getSsl().isEnabled()) {
             cfg.setSslContextFactory(sslContextFactory());
